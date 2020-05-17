@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body {
+  background: rgba(0, 0, 0, 0.25);
+  font-family: 'Open Sans';
+}
+
+.header {
+  color: red;
+  font-size: 48px;
+  margin: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.bottom-nav {
+  font-size: 22px;
+  margin-top: 40px;
+}
+
+.main-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.car-card {
+  min-height: 600px;
+    background-color: rgba(250, 250, 250,0.50);
+}
+
+.form {
+  border: 1px solid grey;
+  max-width: 500px;
+  margin: auto;
+  text-align: left;
+  padding: 20px;
+  min-height: 300px;
+}
+
+.user-form {
+  border: 2px outset black;
+  border-radius: 7px;
+  max-width: 100%;
+}
+
+#parent {
+  overflow: hidden;
+  position: relative;
+  display: table;
+}
+
+.right {
+  display: table-cell;
+  padding-left: 150px;
+  padding-top: 25px;
+}
+
+.left {
+  height: 100%;
+  display: table-cell;
+}
+
+.search {
+  font-size: 1.5em;
+}
+
+.pics {
+  background-color: silver;
+}
+
+#cart-icon {
+  color: grey;
+  margin-left: 40px;
+  float: right;
+}
+
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(250, 250, 250, 0.25);
+}
+
+.clear {
+  opacity: 0.6;
+}

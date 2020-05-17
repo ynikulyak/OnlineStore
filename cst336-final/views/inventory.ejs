@@ -1,0 +1,505 @@
+<% include partials/adminHeader %>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <div class="container-fluid main-container">
+        <div class="card main-card car-card">
+            <div class="card-body">
+                <div id="tabs">
+                 
+<div id="alert">
+  
+</div>
+  <ul>
+    <li><a href="#fragment-1" id="cInventory"><span>Current Inventory</span></a></li>
+    <li><a href="#fragment-2"><span>Add Vehicle</span></a></li>
+    <li><a href="#fragment-3" id="editVehicle"><span>Edit Vehicle</span></a></li>
+  </ul>
+  <div id="fragment-1">
+  
+  </div>
+  <div id="fragment-2">
+    <form action="/api/addVehicle">
+      <div id="alert">
+        
+      </div>
+      Select Year: <select id="year">
+      <option>Select One</option>
+      </select><br />
+      
+       Select Make: <select id="make">
+     <option>Select One</option>
+      </select><br />
+      
+      Select Model: <select id="model">
+     <option>Select One</option>
+      </select><br />
+      
+      
+      Select Color: <select id="color">
+     <option>Select One</option>
+      <option value="white">White</option>
+      <option value="black">Black</option>
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+      </select><br />
+      <br /><br />
+      <div id="imageView">
+        
+      </div>
+      <br /><br />
+      
+      <input type="checkbox" id="useDefault" /> Use Default Image <br />
+      Select Body Type: <select id="bodyType">
+     <option>Select One</option>
+      <option value="Sedan">Sedan</option>
+      <option value="Coupe">Coupe</option>
+      <option value="SUV">Suv</option>
+      <option value="Truck">Truck</option>
+      </select><br />
+      
+      Price: <input type="text" id="price" /><br /><br />
+      
+      <input type="hidden" id="imageUrl" />
+      <button id="addVehicle">
+        Add Vehicle
+      </button>
+    </form>
+  </div>
+                  
+                  <div id="fragment-3">
+                    <form action="/api/addVehicle">
+      <div id="alert">
+        
+      </div>
+      <span id="eYear"></span><br />
+      
+       Select Make: <span id="eMake"></span><br />
+      
+      Select Model: <span id="eModel"></span><br />
+      
+      
+      Select Color: <select id="eColor">
+     <option>Select One</option>
+      <option value="white">White</option>
+      <option value="black">Black</option>
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+      </select><br />
+      <br /><br />
+      <div id="eImageView">
+        
+      </div>
+      <br /><br />
+      
+      <input type="checkbox" id="eUseDefault" /> Use Default Image <br />
+      Select Body Type: <select id="eBodyType">
+     <option>Select One</option>
+      <option value="Sedan">Sedan</option>
+      <option value="Coupe">Coupe</option>
+      <option value="SUV">Suv</option>
+      <option value="Truck">Truck</option>
+      </select><br />
+      
+      Price: <input type="text" id="ePrice" /><br /><br />
+      
+      <input type="hidden" id="eImageUrl" />
+      <input type="hidden" id="eVehicleID" />
+      <button id="eUpdateVehicle">
+        Update Vehicle
+      </button>
+    </form>
+                  </div>
+ 
+</div>
+            </div>
+        </div>
+    </div>
+<script>
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0
+  });
+    
+  $( "#tabs" ).tabs();
+  
+  
+  
+  
+  $(document).ready(function(){
+    
+    
+    
+    
+    $.ajax({
+      method: "GET",
+      url: "/api/displayCars",
+      dataType: "json",
+      data: {},
+      success: function(rows,status) {
+        console.log(rows);
+        $("#fragment-1").html("");
+        rows.forEach(function(row, i) {
+          if(row.imageUrl != '') {
+            imgUrl = row.imageUrl;
+          }else{
+            imgUrl = 'img/car.png';
+          }
+          $("#fragment-1").append("<div class='card mb-3 pics' style='max-width: 640px;'><div class='row no-gutters'><div class='col-md-4'>" +
+            "<img src='" + imgUrl + "' class='card-img' alt='car'></div><div class='col-md-8'><div class='card-body'><h3 class='card-title'>" +
+            row.make + " " + row.model + "</h3><br><p class='card-text'>Year: " + row.year + " / " + row.type + " / Color: " + row.color + "</p><br>" +
+            "<h3><strong>Price: " + formatter.format(row.price) + "</h3><br><button data='" + row.id + "' type='button' class='btn btn-dark add-to-cart' onclick='editVehicle(\"" + row.id + "\");'>Edit Vehicle</button> <button data='" + row.id + "' type='button' class='btn btn-danger add-to-cart' onclick='deleteVehicle(\"" + row.id + "\")'>Delete Vehicle</button> </div></div></div</div>");
+        }); //foreach
+        
+      }
+    });
+    
+    
+    $("#editVehicle").on("click", function(e){
+      if($("#eVehicleID").val() == ""){
+      $("#alert").html('<div class="alert alert-danger" role="alert">Select Edit Vehicle from Current Inventory</div>');
+        setTimeout(function() {
+        $("#alert").html('', {}, 500)
+    }, 5000);
+        //Add vehicle api
+        
+        $("#cInventory").trigger('click');
+      }else{
+        
+      }
+    });
+    $("#inventory").addClass("active");
+    
+    for(let i = 2019; i >= 2000; i--){
+      $("#year").append("<option value='" + i + "'>" + i + "</option>")
+    }
+    
+    $("#year").on("change", function(){
+      $("#alert").html("");
+      var year = $("#year").val();
+      $("#model").html("<option>Select One</option>");
+      if(year.length == 0){
+         $("#make").html("<option>Select One</option>");
+      }else{
+      $.ajax({
+      method: "GET",
+      url: "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getMakes&year=" + year + "&sold_in_us=1",
+      dataType: "json",
+      data: { },
+      success: function(result,status) {
+        $("#make").html("<option>Select One</option>");
+        for (let i = 0; i < result.Makes.length; i++){
+          $("#make").append("<option value='" + result.Makes[i].make_display + "'>" + result.Makes[i].make_display + "</option>");
+        }
+      }
+    });//carMakeRequest
+      }
+    });
+    
+    $("#make").on("change", function(){
+      var year = $("#year").val();
+      var make = $("#make").val();
+      $("#alert").html("");
+      if(year.length == 0 || make.length == 0){
+        
+      }else{
+      $.ajax({
+      method: "GET",
+      url: "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=" + make + "&year=" + year + "&sold_in_us=1",
+      dataType: "json",
+      data: { },
+      success: function(result,status) {
+        $("#model").html("<option>Select One</option>");
+        for (let i = 0; i < result.Models.length; i++){
+          $("#model").append("<option value='" + result.Models[i].model_name + "'>" + result.Models[i].model_name + "</option>");
+        }
+      }
+    });//carModelRequest
+      }
+    });
+    
+     $("#color").on("change", function(){
+      var year = $("#year").val();
+      var make = $("#make").val();
+      var model = $("#model").val();
+       $("#alert").html("");
+      if(year.length == 0 || make.length == 0 || model.length == 0 || color.length == 0){
+        
+      }else{
+      $.ajax({
+      method: "GET",
+      url: "http://www.carimagery.com/api.asmx/GetImageUrl?",
+      dataType: "text",
+      data: {"searchTerm": year + " " + make + " " + model + " " + color },
+      success: function(result,status) {
+        $("#imageView").html("Generating Image...");
+        urlImage = result.match('.com/">(.*)<');
+        $("#imageUrl").val(urlImage[1]);
+      $("#imageView").html("<img src='" + urlImage[1] + "' alt='" + year + " " + make + " " + model + " " + color + "' width='300px'>");
+        
+      }
+    });//carImage
+      }
+    });
+    
+    $("#model").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    $("#price").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    $("#bodyType").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    
+    
+    //EDIT VEHICLE
+    
+    
+     $("#eColor").on("change", function(){
+      var year = $("#eYear").text();
+      var make = $("#eMake").text();
+      var model = $("#eModel").text();
+       //alert(model);
+       $("#alert").html("");
+      if(year.length == 0 || make.length == 0 || model.length == 0 || color.length == 0){
+        
+      }else{
+      $.ajax({
+      method: "GET",
+      url: "http://www.carimagery.com/api.asmx/GetImageUrl?",
+      dataType: "text",
+      data: {"searchTerm": year + " " + make + " " + model + " " + color },
+      success: function(result,status) {
+        $("#eImageView").html("Generating Image...");
+        urlImage = result.match('.com/">(.*)<');
+        $("#eImageUrl").val(urlImage[1]);
+      $("#eImageView").html("<img src='" + urlImage[1] + "' alt='" + year + " " + make + " " + model + " " + color + "' width='300px'>");
+        
+      }
+    });//carImage
+      }
+    });
+    
+    $("#model").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    $("#price").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    $("#bodyType").on("focus", function(){
+      $("#alert").html("");
+    });
+    
+    
+    
+    $("#addVehicle").on("click", function(e){
+      
+      e.preventDefault();
+      var year = $("#year").val();
+      var make = $("#make").val();
+      var model = $("#model").val();
+      var color = $("#color").val();
+      var bodyType = $("#bodyType").val();
+      var price = $("#price").val();
+      var imageUrl = $("#imageUrl").val();
+      if ($("#useDefault").prop("checked") == true) {
+        imageUrl = "";
+      }
+      if (year == "" || make == "" || model == "" || color == "" || bodyType == "" || price == "") {
+        $("#alert").html('<div class="alert alert-danger" role="alert">Make sure all fields are selected.</div>');
+      }else{
+         $.ajax({
+      method: "GET",
+      url: "/api/addVehicle",
+      dataType: "json",
+      data: {"year": year, "make": make, "model": model, "color": color, "bodyType": bodyType, "price": price, "imageUrl": imageUrl},
+      success: function(rows,status) {
+        console.log(rows);
+        $("#fragment-1").html("");
+        rows.forEach(function(row, i) {
+          if(row.imageUrl != '') {
+            imgUrl = row.imageUrl;
+          }else{
+            imgUrl = 'img/car.png';
+          }
+          $("#fragment-1").append("<div class='card mb-3 pics' style='max-width: 640px;'><div class='row no-gutters'><div class='col-md-4'>" +
+            "<img src='" + imgUrl + "' class='card-img' alt='car'></div><div class='col-md-8'><div class='card-body'><h3 class='card-title'>" +
+            row.make + " " + row.model + "</h3><br><p class='card-text'>Year: " + row.year + " / " + row.type + " / Color: " + row.color + "</p><br>" +
+            "<h3><strong>Price: " + formatter.format(row.price) + "</h3><br><button data='" + row.id + "' type='button' class='btn btn-dark add-to-cart'" +
+            "onclick='editVehicle(\"" + row.id + "\");'>Edit Vehicle</button> <button data='" + row.id + "' type='button' class='btn btn-danger add-to-cart' onclick='deleteVehicle(\"" + row.id + "\");'>Delete Vehicle</button></div></div></div</div>"
+          );
+        }); //foreach
+        
+        
+        
+        $("#alert").html('<div class="alert alert-success" role="alert">Vehicle Added to Inventory</div>');
+        setTimeout(function() {
+        $("#alert").html('', {}, 500)
+    }, 5000);
+        //Add vehicle api
+        
+        $("#cInventory").trigger('click');
+      }
+      });
+        
+      }
+      
+      
+    });
+    
+    
+    
+  });
+  
+  
+  $("#eUpdateVehicle").on("click", function(e){
+      
+      e.preventDefault();
+      var vehicleID = $("#eVehicleID").val();
+      var color = $("#eColor").val();
+      var bodyType = $("#eBodyType").val();
+      var price = $("#ePrice").val();
+      var imageUrl = $("#eImageUrl").val();
+      if ($("#eUseDefault").prop("checked") == true) {
+        imageUrl = "";
+      }
+      if (color == "" || bodyType == "" || price == "") {
+        $("#alert").html('<div class="alert alert-danger" role="alert">Make sure all fields are selected.</div>');
+      }else{
+         $.ajax({
+      method: "GET",
+      url: "/api/updateVehicle",
+      dataType: "json",
+      data: {"color": color, "bodyType": bodyType, "price": price, "imageUrl": imageUrl, "vehicleID": vehicleID},
+      success: function(rows,status) {
+        console.log(rows);
+        $("#fragment-1").html("");
+        rows.forEach(function(row, i) {
+          if(row.imageUrl != '') {
+            imgUrl = row.imageUrl;
+          }else{
+            imgUrl = 'img/car.png';
+          }
+          $("#fragment-1").append("<div class='card mb-3 pics' style='max-width: 640px;'><div class='row no-gutters'><div class='col-md-4'>" +
+            "<img src='" + imgUrl + "' class='card-img' alt='car'></div><div class='col-md-8'><div class='card-body'><h3 class='card-title'>" +
+            row.make + " " + row.model + "</h3><br><p class='card-text'>Year: " + row.year + " / " + row.type + " / Color: " + row.color + "</p><br>" +
+            "<h3><strong>Price: " + formatter.format(row.price) + "</h3><br><button data='" + row.id + "' type='button' class='btn btn-dark add-to-cart'" +
+            "onclick='editVehicle(\"" + row.id + "\");'>Edit Vehicle</button> <button data='" + row.id + "' type='button' class='btn btn-danger add-to-cart' onclick='deleteVehicle(\"" + row.id + "\");'>Delete Vehicle</button></div></div></div</div>"
+          );
+        }); //foreach
+        
+        
+        
+        $("#alert").html('<div class="alert alert-success" role="alert">Vehicle has been updated</div>');
+        setTimeout(function() {
+        $("#alert").html('', {}, 500)
+    }, 5000);
+        //Add vehicle api
+        
+        $("#cInventory").trigger('click');
+        
+        $("#eYear").html("");
+          $("#eMake").html("");
+          $("#eModel").html("");
+          $("#eColor").val("");
+          $("#eImageView").html("");
+          $("#ePrice").val("");
+          $("#eBodyType").val("");
+          $("#eImageUrl").val("");
+          $("#eVehicleID").val("");
+      }
+      });
+        
+      }
+      
+      
+    });
+    
+  
+  function deleteVehicle(vehicleID) {
+     $.ajax({
+      method: "GET",
+      url: "/api/deleteVehicle",
+      dataType: "json",
+      data: {"vehicleID": vehicleID},
+      success: function(rows,status) {
+        console.log(rows);
+        $("#fragment-1").html("");
+        rows.forEach(function(row, i) {
+          if(row.imageUrl != '') {
+            imgUrl = row.imageUrl;
+          }else{
+            imgUrl = 'img/car.png';
+          }
+          $("#fragment-1").append("<div class='card mb-3 pics' style='max-width: 640px;'><div class='row no-gutters'><div class='col-md-4'>" +
+            "<img src='" + imgUrl + "' class='card-img' alt='car'></div><div class='col-md-8'><div class='card-body'><h3 class='card-title'>" +
+            row.make + " " + row.model + "</h3><br><p class='card-text'>Year: " + row.year + " / " + row.type + " / Color: " + row.color + "</p><br>" +
+            "<h3><strong>Price: " + formatter.format(row.price) + "</h3><br><button data='" + row.id + "' type='button' class='btn btn-dark add-to-cart updateVehicle'" +
+            "onclick='editVehicle(\"" + row.id + "\");'>Edit Vehicle</button> <button data='" + row.id + "' type='button' class='btn btn-danger add-to-cart updateVehicle' onclick='deleteVehicle(\"" + row.id + "\");'>Delete Vehicle</button></div></div></div</div>");
+        }); //foreach
+        
+        
+        
+        $("#alert").html('<div class="alert alert-success" role="alert">Vehicle Removed from Inventory</div>');
+        setTimeout(function() {
+        $("#alert").html('', {}, 500)
+    }, 5000);
+        //Add vehicle api
+        
+      }
+      });
+  }
+  
+  function editVehicle(vehicleID) {
+    $.ajax({
+      method: "GET",
+      url: "/api/editVehicle",
+      dataType: "json",
+      data: {"vehicleID": vehicleID},
+      success: function(rows,status) {
+        console.log(rows);
+        $("#fragment-1").html("");
+        rows.forEach(function(row, i) {
+          if(row.imageUrl != '') {
+            imgUrl = row.imageUrl;
+            $( "#eUseDefault" ).prop( "checked", false );
+          }else{
+            imgUrl = 'img/car.png';
+            $( "#eUseDefault" ).prop( "checked", true );
+          }
+          //console.log(rows);
+          
+          $("#eYear").text(row.year);
+          $("#eMake").text(row.make);
+          $("#eModel").text(row.model);
+          $("#eColor").val(row.color);
+          $("#eImageView").html("<img src='"+imgUrl + "' width='300px'  />");
+          $("#ePrice").val(row.price);
+          $("#eBodyType").val(row.type);
+          $("#eImageUrl").val(row.imageUrl);
+          $("#eVehicleID").val(row.id);
+           $("#editVehicle").trigger('click');
+        }); //foreach
+        
+      }
+      });
+  }
+</script>
+<style>
+  table, tr, td {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+  }
+</style>
+<% include partials/adminFooter %>

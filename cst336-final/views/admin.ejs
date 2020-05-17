@@ -1,0 +1,30 @@
+<% include partials/adminHeader %>
+   
+                <h1>Admin Page</h1>
+                <!-- TODO: REMOVE THIS -->
+                <ul style="width: 600px; margin: auto; border: 1px solid black;">
+                    <li>
+                        Welcome to the Admin Page
+                    </li>
+                    <li>
+                        On top you will find the menu to the inventory and a menu to the reports 	
+                    </li>
+                    <li>
+                        Please naviate through the menu above
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+
+<script>
+  $( "#tabs" ).tabs();
+  
+  $(document).ready(function(){
+    
+    $("#admin").addClass("active");
+  });
+</script>
+<% include partials/adminFooter %>

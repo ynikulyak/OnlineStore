@@ -1,0 +1,107 @@
+<% include partials/header %>
+  <div class="container-fluid main-container">
+    <div class="card main-card car-card">
+      <div class="card-body ">
+        <h1>Find Your New Car <a id="cart-icon" href="/cart">
+             <i class='fas fa-cart-arrow-down' style='font-size:48px' id="cart-count"></i>
+            </a></h1>
+        <div id="parent">
+
+
+          <div class="left">
+            <form class="user-form">
+              <div class="card card-make">
+                <h5 class="card-header">Make</h5>
+                <div class="card-body">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                    </div>
+                    <select class="form-control custom-select" id="inputGroupSelect01">
+                    <option value="" selected>Choose...</option>
+                    <% cars.forEach(function (cars, i) { %>
+                    <option value="<%= cars.make %>"> <%= cars.make %> 
+                    <% }) %>
+                    </option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Year</h5>
+                <div class="card-body year">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect02">From:</label>
+                    </div>
+                    <select class="form-control custom-select" id="inputGroupSelect02">
+                    <option value="" selected>Any Year</option>
+                    <% year.forEach(function (year, i) { %>
+                    <option value="<%= year.year %>"> <%= year.year %> 
+                    <% }) %>
+                    </option>
+                  </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect03">To:</label>
+                    </div>
+                    <select class="form-control custom-select" id="inputGroupSelect03">
+                    <option value ="" selected>Any Year</option>
+                    <% year.forEach(function (year, i) { %>
+                    <option value="<%= year.year %>"> <%= year.year %> 
+                    <% }) %>
+                    </option>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Price</h5>
+                <div class="card-body year">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect04">From:</label>
+                    </div>
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect04"> $</label>
+                    </div>
+                    <select class="form-control custom-select" id="inputGroupSelect04">
+                    <option value="" selected>Any Price</option>
+                    <% price.forEach(function (price, i) { %>
+                    <option value="<%= price.price %>"> <%= price.price %> 
+                    <% }) %>
+                    </option>
+                  </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect05">To:</label>
+                    </div>
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect05">$</label>
+                    </div>
+                    <select class="form-control custom-select" id="inputGroupSelect05">
+                    <option value="" selected>Any Price</option>
+                    <% price.forEach(function (price, i) { %>
+                    <option value="<%= price.price %>"> <%= price.price %> 
+                    <% }) %>
+                  </select>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary btn-block search" id="search-btn">Search</button>
+            </form>
+          </div>
+          <div class="right">
+            <div id="selected-cars" class="search-result">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <% include partials/footer %>

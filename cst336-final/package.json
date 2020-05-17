@@ -1,0 +1,29 @@
+{
+  "name": "cst336-final",
+  "version": "1.0.0",
+  "description": "1. Clone the project from https://github.com/JaredAtCSUMB/cst336-final.git 2. Navigate to the root of the project and run `npm i` to install all necessary packages 3. Be sure to run all the db scripts in the `mysql` folder to ensure you have all necessary tables 4. Run `nodemon app.js` (assuming you have nodemon installed. if not, you really should ;)) 5. Make sure the `isLocal` flag is set to `true` (in both the `app.js` and `db.js` files) when doing local development 6. Test the login credentials (username: `admin` password: `secret`) # Dev Notes * Be sure to add any db scripts as new tables are created! # Deploying * Important Note: Make sure the `isLocal` flag is set to `false`",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaredAtCSUMB/cst336-final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaredAtCSUMB/cst336-final/issues"
+  },
+  "homepage": "https://github.com/JaredAtCSUMB/cst336-final#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.1",
+    "request": "^2.88.0",
+    "require": "^2.4.20"
+  }
+}

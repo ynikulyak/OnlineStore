@@ -1,0 +1,71 @@
+<% include partials/header %>
+  <div class="container-fluid main-container">
+    <div class="card main-card car-card">
+      <div class="card-body ">
+        <h1>Your Shopping Cart <i class='fas fa-cart-arrow-down' style='font-size:48px' id="cart-count"></i></h1>
+        
+        <div class="table-responsive main">
+          <table class="table">
+              <% var total = 0 %>
+              <% var itemIds = [] %>
+              <% var counts = [] %>
+            <% rows.forEach(function(row){ %>
+              <tr class="item">
+
+                <td><img src='img/car.png'></td>
+                <td class='name'>
+                  <%= row.make %>
+                    <%= row.model %>
+                      <%= row.year %><br>
+                        <span class='type'><%= row.type %> / <%= row.color %> <br><span class='small'>Item</span>
+                </td>
+                <td class='price'><span class='item-price'>$<%= row.price %></span><br><span class='small'>each</span>
+                </td>
+                <td class='quantity'>
+                  
+                  <div class="input-group mb-3">
+                    <input type='number' class='form-control item-qnt' id='quantity<%= row.itemId %>' value='<%= row.NUM %>' min='0' max='100' aria-describedby="quantity<%= row.itemId %>"> 
+                    <div class="input-group-append">
+                      <button type='button' data="<%= row.itemId %>" class='btn btn-outline-secondary update' id="button-update<%= row.itemId %>" onclick="return updateCartItemWithButton(this);">Update</button>
+                    </div>
+                    &nbsp;<a href="#" class="small" onclick="updateCartItem(<%= row.itemId %>, 0); return false;">Remove</a>
+                  </div>
+                  <div>
+                     <span class='small'>Quantity</button>
+                  </div>
+                  
+                  
+                  
+                </td>
+                <td class='total'><span class='item-total'>$<%= row.TOTAL %></span><br><span class='small'>Total</span>
+                    <% total +=  row.TOTAL%>
+                    <% itemIds.push(row.itemId) %>
+                    <% counts.push(row.NUM) %>
+                </td>
+              </tr>
+
+              <% }) %>
+
+
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td id="subtotal">
+                      <p id="cart-subtotal">Subtotal: $<%= total %></p>
+                      <p id="taxes">Tax: 10%</p>
+                      <p id="final">Total: $<%= (total * 1.1).toFixed(2);%></p>
+                      <button type="button" class="btn btn-warning" id="place_order" onclick="placeOrder([<%= itemIds %>], [<%= counts %>])">Place your order</button>
+                  </td>
+                </tr>
+
+
+          </table>
+        </div>
+          
+      </div>
+    </div>
+  </div>
+
+  <% include partials/footer %>

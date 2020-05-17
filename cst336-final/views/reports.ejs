@@ -1,0 +1,120 @@
+<% include partials/adminHeader %>
+
+  <span>Reports are based on the vehicles currently in our inventory.</span>
+                <div id="tabs">
+  <ul>
+    <li><a href="#fragment-1"><span>Report by Make</span></a></li>
+    <li><a href="#fragment-2"><span>Inventory Pricing</span></a></li>
+<!--     <li><a href="#fragment-3"><span>Vehicle Colors</span></a></li> -->
+  </ul>
+  <div id="fragment-1">
+    <table>
+      <tr><td>Most Popular Make</td><td><% highestMake.forEach(function(x, i){ %>
+          <% if (i == 0) { } else {  %>
+          ,
+         <% } %>
+        <%= makes[x].make; %>
+          <% }) %></td></tr>
+      <tr><td>Least Popular Make</td><td><% lowestMake.forEach(function(x, i){  %>
+          <% if (i == 0) { } else {  %>
+          ,
+         <% } %>
+        <%= lowMakes[x].make; %> 
+          <% }) %></td></tr>
+    </table>
+    
+    <table>
+      <tr><td>Make</td><td>Number of Vehicles per Make</td></tr>
+      <% makes.forEach(function(x, i){ %>
+         <tr><td><%= makes[i].make; %></td><td><%= makes[i].make_count %></td></tr>
+          <% }) %>
+    </table>
+  </div>
+  <div id="fragment-2">
+    <table>
+      <tr>
+        <td>Most Expensive Vehicle</td>
+        <td><%= mostExpensive[0].make %> <%= mostExpensive[0].model %></td>
+        <td>$<%= mostExpensive[0].price %></td>
+      </tr>
+      <tr>
+        <td>Least Expensive Vehicle</td>
+        <td><%= leastExpensive[0].make %> <%= leastExpensive[0].model %></td>
+        <td>$<%= leastExpensive[0].price %></td>
+      </tr>  
+    </table>
+    
+    <table>
+      <tr>
+        <td>Highest Price</td>
+        <td>$<%= mostExpensive[0].price %></td>
+      </tr>
+      <tr>
+        <td>Average Price</td>
+        <td>$<%= averagePrice[0].averagePrice %></td>
+      </tr> 
+      <tr>
+        <td>Lowest Price</td>
+        <td>$<%= leastExpensive[0].price %></td>
+      </tr>
+    </table>
+
+    <table id="allVehicles">
+      <tr><td>Make/Model</td><td>Price</td></tr>
+      <% allVehicles.forEach(function(x, i){ %>
+         <tr><td><%= allVehicles[i].make; %> <%= allVehicles[i].model; %></td><td>$<%= allVehicles[i].price; %></td></tr>
+          <% }) %>
+    </table>
+  </div>
+<!--   <div id="fragment-3">
+   <table>
+      <tr>
+        <td>Top Color Chosen</td>
+        <td><% highestColor.forEach(function(x, i){ %>
+          <% if (i == 0) { } else {  %>
+          ,
+         <% } %>
+        <%= colors[x].color; %>
+          <% }) %></td>
+      </tr>
+      
+      <tr>
+        <td>Least Chosen</td>
+        <td><% lowestColor.forEach(function(x, i){  %>
+          <% if (i == 0) { } else {  %>
+          ,
+         <% } %>
+        <%= lowColors[x].color; %> 
+          <% }) %></td>
+      </tr>           
+    </table>
+    
+    <br /><br />
+    <table>
+      <tr><td>Color</td><td># of Cars Per Color</td></tr>
+      
+       <% colors.forEach(function(x, i){ %>
+         <tr><td><%= colors[i].color; %></td><td><%= colors[i].color_count %></td></tr>
+          <% }) %>
+    </table>
+  </div> -->
+</div>
+            </div>
+        </div>
+    </div>
+<script>
+  $( "#tabs" ).tabs();
+  $(document).ready(function(){
+    $("#reports").addClass("active");
+    
+  });
+</script>
+<style>
+  table, tr, td {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+  }
+</style>
+<% include partials/adminFooter %>
